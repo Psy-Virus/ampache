@@ -19,6 +19,10 @@
 #
 
 PATH=$PATH:/bin:/usr/bin:/usr/local/bin
+dbhost=$(grep -oP "(?<=database_hostname = \")[^\"\n]+" ../../config/ampache.cfg.php)
+dbname=$(grep -oP "(?<=database_name = \")[^\"\n]+" ../../config/ampache.cfg.php)
+dbuser=$(grep -oP "(?<=database_username = \")[^\"\n]+" ../../config/ampache.cfg.php)
+dbpass=$(grep -oP "(?<=database_password = \")[^\"\n]+" ../../config/ampache.cfg.php)
 
 # gettext package test
 if ! which xgettext &>/dev/null ; then
@@ -37,6 +41,8 @@ usage() {
 }
 
 generate_pot() {
+    echo "Deleting old messages.pot"
+    rm messages.pot
     xgettext    --from-code=UTF-8 \
                 --add-comment=HINT: \
                 --msgid-bugs-address="translations@ampache.org" \
@@ -46,7 +52,24 @@ generate_pot() {
                 $(find ../../ -type f -name \*.php -o -name \*.inc | sort)
     if [[ $? -eq 0 ]]; then
         echo "pot file creation succeeded"
+        echo "delete old translation-words.txt"
+        rm translation-words.txt
         echo "Adding database words to pot file..."
+        mysql -N --database=$dbname --host=$dbhost --user=$dbuser --password=$dbpass -se "SELECT id FROM preference" | 
+        while read dbprefid; do
+            dbprefdesc=$(mysql -N --database=$dbname --host=$dbhost --user=$dbuser --password=$dbpass -se "SELECT description FROM preference where id=$dbprefid")
+            dbprefdescchk=$(grep "\"$dbprefdesc\"" messages.pot)
+            if [ ! "$dbprefdescchk" ]; then
+            echo    "#: Database preference table id $dbprefid" >> translation-words.txt
+            echo -e "msgid \"$dbprefdesc\"" >> translation-words.txt
+            echo -e "msgstr \"\"\n" >> translation-words.txt
+            else
+            echo    "#: Database preference table id $dbprefid" >> translation-words.txt
+            echo -e "# is already in the source code\n# but to avoid confusion, it's added and commented" >> translation-words.txt
+            echo -e "# msgid \"$dbprefdesc\"" >> translation-words.txt
+            echo -e "# msgstr \"\"\n" >> translation-words.txt
+            fi
+        done
         cat translation-words.txt >> messages.pot
     else
         echo "pot file creation failed"

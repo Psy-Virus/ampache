@@ -282,6 +282,10 @@ a.tag_size1, a.tag_size2, a.tag_size3, a.tag_size4 { text-decoration: none; }
     transform: scaleX(-1);
 }
 
+div#git_autoupdate font {
+    color: #ff0000;
+}
+
 #notification {
 	position: fixed;
     top: auto;

@@ -121,24 +121,7 @@ translation, simply visit us on [Transifex](https://www.transifex.com/ampache/am
 If you prefer it oldscool or want to work offline, take a look at [/locale/base/TRANSLATIONS](https://github.com/ampache/ampache/blob/develop/locale/base/TRANSLATIONS.md)
 for more instructions.
 
-* English       (en_US)
-* Arabic        (ar_SA)
-* Catalan       (ca_ES)
-* Catalan       (ca_ES)
-* Czech         (cs_CZ)
-* Dutch         (nl_NL)
-* French        (fr_FR)
-* German        (de_DE)
-* Greek         (el_GR)
-* Italian       (it_IT) 
-* Japanese      (ja_JP)
-* Norwegian     (nb_NO)
-* Persian       (fa_IR)
-* Polish        (pl_PL)
-* Russian       (ru_RU)
-* Spanish       (es_ES)
-* Swedish       (sv_SE)
-* UK English    (en_GB)
+[![Transifex](https://www.transifex.com/projects/p/ampache/resource/messagespot/chart/image_png)](https://www.transifex.com/ampache/ampache)
 
 Credits
 -------

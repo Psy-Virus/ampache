@@ -23,14 +23,13 @@
 ?>
 
 <script type="text/javascript" language="javascript">
-// Set refresh interval (in seconds)
-var refreshInterval=<?php echo $refresh_limit ?>;
-
-function refresh()
-{
+function refresh() {
     <?php echo Ajax::action($ajax_url, ''); ?>;
 }
 $(document).ready(function() {
-window.setInterval(function(){refresh();}, refreshInterval * 1000);
+    clearInterval(window.reloaditv);
+    window.reloaditv = setInterval(function(){
+        refresh();
+    }, refreshInterval * 1000);
 });
 </script>
